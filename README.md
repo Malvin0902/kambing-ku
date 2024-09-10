@@ -13,4 +13,4 @@ Apakah kamu sedang mencari kambing yang bisa merumput sendiri? Atau kambing yang
 Note Terakhir:
 Di KambingKu, setiap kambing adalah spesial. Jadi ingat, kambing juga butuh cinta, perhatian, dan rumput berkualitas!
 
-Happy shopping! 🛒🎉
+Happy shopping! 🛒🎉 :
