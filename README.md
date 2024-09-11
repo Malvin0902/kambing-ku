@@ -48,21 +48,11 @@ Jalankan perintah python manage.py makemigrations dan python manage.py migrate u
 
 Di dalam main/views.py, buat fungsi yang mengembalikan template HTML:
 
-from django.shortcuts import render
-
-def home(request):
-    return render(request, 'main/main.html', {'name': 'kambing-ku', 'class': 'Django Development'})
 
 5. Membuat Template HTML:
 
 Di dalam direktori main, buat folder templates, dan di dalamnya buat berkas HTML dengan nama main.html.
 
-<h5>Kambing Master: </h5>
-<p>{{ Kambing_Master }}<p>
-<h5>Name: </h5>
-<p>{{ Role }}<p>
-<h5>Class: </h5>
-<p>{{ Class }}<p>
 
 6. Mengatur Routing di urls.py:
 
