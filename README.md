@@ -81,7 +81,7 @@ Di dalam direktori main, buat folder templates, dan di dalamnya buat berkas HTML
 - Jalankan perintah deployment dari PWS, dan gunakan perintah git push pws main:master untuk perubahan selanjutnya.
 
 
-    
+![alt text](image.png)
 
 Fungsi Git Dalam Pengembangan Perangkat Lunak
 
