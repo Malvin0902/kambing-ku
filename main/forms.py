@@ -4,4 +4,4 @@ from main.models import KambingEntry
 class KambingEntryForm(ModelForm):
     class Meta:
         model = KambingEntry
-        fields = ["mood", "feelings", "mood_intensity"]
+        fields = ["name", "price", "description"]
