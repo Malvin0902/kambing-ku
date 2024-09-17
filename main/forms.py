@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from main.models import MoodEntry
+from main.models import KambingEntry
 
-class MoodEntryForm(ModelForm):
+class KambingEntryForm(ModelForm):
     class Meta:
-        model = MoodEntry
+        model = KambingEntry
         fields = ["mood", "feelings", "mood_intensity"]
