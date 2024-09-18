@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, redirect   # Tambahkan import redirect di baris ini
+from django.shortcuts import render, redirect
 from main.forms import KambingEntryForm
 from main.models import KambingEntry
 from django.http import HttpResponse
