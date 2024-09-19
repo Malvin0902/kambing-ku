@@ -13,3 +13,9 @@ class KambingEntry(models.Model):
     def is_kambing_pricy(self):
         return self.price > 20000000
     
+class monster(models.Model):
+    name = models.CharField(max_length=199)
+    email= models.EmailField()
+    age = models.IntegerField()
+    is_happy = models.BooleanField()
+    muncul =models.DateField()
