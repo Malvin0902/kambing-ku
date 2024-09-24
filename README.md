@@ -654,11 +654,12 @@ Screenshot Postman
 
 #### Dua Akun dengan Tiga Data Dummy Masing-masing
 
-1. Akun dengan nama `malvin.muhammad` memiliki data sebagai berikut:
+1. Akun dengan nama `rakabima` memiliki data sebagai berikut:
+![alt text](image-7.png)
 
-    
 
-2. Akun dengan nama `malvin.muhammad` memiliki tiga data terakhir sebagai berikut:
+2. Akun dengan nama `mlvn.raqin` memiliki tiga data
+![alt text](image-3.png)
 
     
 
