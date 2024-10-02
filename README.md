@@ -148,7 +148,7 @@ def create_kambing_entry(request):
     context = {'form': form}
     return render(request, "create_kambing_entry.html", context)
 
-4. Ubah fungsi show_main di dalam file views.py untuk menangani produk sebagai berikut:
+4. Ubah fungsi show_main di dalam file views.py untuk menangani kambing sebagai berikut:
 
 def show_main(request):
     kambing_entries = KambingEntry.objects.all()
@@ -698,7 +698,7 @@ Kita perlu membuat hubungan antara model `Product` dan `User` dengan menggunakan
         return render(request, "create_product.html", context)
     ```
 
-4. Filter data produk berdasarkan pengguna di fungsi `show_main`:
+4. Filter data kambing berdasarkan pengguna di fungsi `show_main`:
     ```bash
     def show_main(request):
         products = Product.objects.filter(user=request.user)
@@ -724,7 +724,7 @@ Kita perlu membuat hubungan antara model `Product` dan `User` dengan menggunakan
     >>> 1
     ```
 
-7. Pastikan proyek siap untuk lingkungan produksi dengan menambahkan import berikut di `settings.py`:
+7. Pastikan proyek siap untuk lingkungan kambingsi dengan menambahkan import berikut di `settings.py`:
     ```bash
     import os
     ```
@@ -734,3 +734,164 @@ Kita perlu membuat hubungan antara model `Product` dan `User` dengan menggunakan
     PRODUCTION = os.getenv("PRODUCTION", False)
     DEBUG = not PRODUCTION
     ```
+## Tugas Individiual 4
+
+1. **Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!**
+
+    Urutan prioritas dalam CSS menentukan aturan mana yang diterapkan ketika beberapa selector menargetkan elemen yang sama. Urutan prioritas dari yang paling tinggi hingga rendah adalah sebagai berikut:
+    
+    - **Inline styles**: Gaya yang diterapkan langsung pada elemen HTML menggunakan atribut `style` memiliki prioritas tertinggi.
+      ```html
+      <p style="color: red;">Text in red</p>
+      ```
+
+    - **ID Selectors**: Selector berbasis ID memiliki prioritas di bawah inline styles.
+      ```css
+      #myID {
+        color: blue;
+      }
+      ```
+
+    - **Class, Attribute, Pseudo-class Selectors**: Selector berbasis class, atribut, atau pseudo-class memiliki prioritas di bawah ID.
+      ```css
+      .myClass {
+        color: green;
+      }
+      ```
+
+    - **Element selectors**: Selector berdasarkan tag HTML seperti `<p>`, `<div>`, dll., memiliki prioritas terendah.
+      ```css
+      p {
+        color: black;
+      }
+      ```
+
+2. **Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!**
+
+    **Responsive design** penting karena memungkinkan tampilan dan pengalaman pengguna yang konsisten pada berbagai ukuran perangkat, mulai dari desktop hingga smartphone. Dengan demikian, pengguna dapat mengakses konten dengan nyaman di semua perangkat tanpa harus menggunakan versi khusus untuk setiap layar.
+
+    **Contoh aplikasi yang sudah menerapkan responsive design**:
+    - **Tokopedia**: Layout-nya berubah sesuai dengan ukuran layar, memberikan navigasi yang mudah di desktop maupun perangkat seluler.
+    - **Twitter (X)**: Tampilan berubah antara versi desktop dan mobile, memungkinkan penggunaan di berbagai perangkat.
+
+    **Contoh aplikasi yang belum menerapkan responsive design**:
+    - **Beberapa situs web universitas**: Situs web lama universitas cenderung tidak responsif, yang menyebabkan kesulitan saat diakses melalui perangkat seluler karena layout yang hanya cocok untuk layar desktop.
+
+3. **Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!**
+
+    **Margin**: Ruang di luar elemen yang memisahkan elemen dari elemen lain.
+    - Implementasi:
+      ```css
+      .element {
+        margin: 20px; /* Semua sisi margin 20px */
+      }
+      ```
+
+    **Border**: Garis di sekitar elemen yang mengelilingi padding dan konten.
+    - Implementasi:
+      ```css
+      .element {
+        border: 2px solid black; /* Border hitam 2px */
+      }
+      ```
+
+    **Padding**: Ruang di dalam elemen yang memisahkan konten dari border.
+    - Implementasi:
+      ```css
+      .element {
+        padding: 15px; /* Padding 15px di semua sisi */
+      }
+      ```
+
+    **Perbedaan**:
+    - **Margin** mengatur jarak luar elemen dari elemen lain.
+    - **Border** adalah garis yang mengelilingi padding dan konten.
+    - **Padding** mengatur jarak antara konten dan border.
+
+4. **Jelaskan konsep flex box dan grid layout beserta kegunaannya!**
+
+    **Flexbox**:
+    - **Konsep**: Flexbox adalah layout satu dimensi yang digunakan untuk mengatur elemen secara horizontal atau vertikal. Flexbox memberikan kontrol penuh atas penyusunan item dalam baris atau kolom.
+    - **Kegunaan**: Menyusun elemen secara fleksibel, terutama untuk layout yang sederhana dengan elemen yang sejajar.
+    - **Implementasi**:
+      ```css
+      .container {
+        display: flex;
+        flex-direction: row; /* Mengatur elemen dalam baris */
+        justify-content: space-between; /* Mengatur ruang di antara elemen */
+        align-items: center; /* Mengatur elemen agar sejajar secara vertikal */
+      }
+      ```
+
+    **Grid Layout**:
+    - **Konsep**: CSS Grid adalah sistem layout dua dimensi yang dapat mengatur elemen dalam baris dan kolom sekaligus. Grid sangat cocok untuk layout yang lebih kompleks.
+    - **Kegunaan**: Mengatur elemen dalam dua dimensi, memungkinkan kontrol lebih pada baris dan kolom.
+    - **Implementasi**:
+      ```css
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Membuat 3 kolom dengan lebar yang sama */
+        grid-gap: 10px; /* Jarak antara elemen grid */
+      }
+      ```
+5. 
+
+1. Menerapkan Fungsi Edit dan Hapus kambing
+Langkah 1:
+
+Buat dua fungsi dalam views.py untuk mengelola pengeditan dan penghapusan kambing.
+Fungsi edit: Mengambil kambing berdasarkan ID dan memperbarui informasi kambing yang sudah ada.
+Fungsi delete: Menghapus kambing yang dipilih dari database.
+Langkah 2:
+
+Tambahkan rute pada urls.py untuk menghubungkan fungsi edit dan delete yang telah dibuat.
+Contohnya, gunakan path('product/edit/<int:id>/', views.edit_product, name='edit_product') untuk fungsi edit dan path('product/delete/<int:id>/', views.delete_product, name='delete_product') untuk fungsi delete.
+Langkah 3:
+
+Buat file edit_product.html di dalam folder templates untuk menyediakan antarmuka bagi pengguna untuk mengedit kambing. Formulir ini akan terhubung dengan fungsi edit yang telah dibuat.
+2. Mendesain Halaman Login, Registrasi, dan Tambah kambing yang Menarik
+Langkah 1:
+
+Gunakan framework CSS seperti TailwindCSS untuk mempercantik dan mengatur tata letak halaman login, registrasi, dan tambah kambing (create_order.html).
+Terapkan kelas Tailwind seperti bg-blue-500, text-white, dan rounded-lg pada tombol, formulir, dan elemen lainnya untuk menciptakan tampilan yang lebih modern dan menarik.
+Langkah 2:
+
+Sesuaikan desain antarmuka pengguna (UI/UX) untuk halaman-halaman tersebut, dengan menambahkan efek bayangan untuk memberikan tampilan tiga dimensi, animasi saat kursor melayang, serta memastikan warna dan jenis font konsisten dengan identitas aplikasi.
+3. Menampilkan Pesan dan Gambar Jika Tidak Ada kambing Terdaftar
+Langkah 1:
+
+Dalam template untuk menampilkan daftar kambing (product_list.html), gunakan logika kondisional untuk memeriksa apakah ada kambing yang tersedia untuk pengguna saat ini.
+Contohnya: if not ECommerce.objects.filter(user=request.user).exists():.
+Langkah 2:
+
+Jika tidak ada kambing yang terdaftar, tampilkan gambar default yang disimpan di folder static/ aplikasi, beserta pesan informatif seperti "Belum ada kambing yang terdaftar."
+4. Menampilkan Daftar kambing dalam Format Kartu
+Langkah 1:
+
+Jika ada kambing yang ditemukan, tampilkan kambing dalam format kartu di template seperti card_product.html.
+Gunakan flexbox atau grid layout untuk memastikan tampilan responsif, di mana setiap kartu dapat menampilkan gambar kambing, nama, deskripsi singkat, dan harga.
+Langkah 2:
+
+Pastikan desain kartu memiliki karakteristik unik yang berbeda dari tutorial sebelumnya, misalnya dengan menambahkan border, bayangan, dan efek animasi saat pengguna mengarahkan kursor (hover).
+5. Menambahkan Tombol Edit dan Hapus di Setiap Kartu kambing
+Langkah 1:
+
+Di setiap kartu kambing, tambahkan dua tombol: satu untuk mengedit dan satu untuk menghapus.
+Gunakan ikon SVG untuk memperjelas fungsi dari masing-masing tombol.
+Langkah 2:
+
+Pastikan tombol edit mengarahkan pengguna ke halaman edit kambing (edit_kambing.html), sementara tombol hapus memunculkan konfirmasi sebelum melanjutkan penghapusan kambing.
+6. Membuat Navigation Bar yang Responsif untuk Aplikasi
+Langkah 1:
+
+Buat file navbar.html dan tambahkan elemen navigasi yang berisi tautan ke fitur-fitur utama aplikasi, seperti daftar kambing, tambah kambing, dan logout.
+Langkah 2:
+
+Implementasikan responsivitas dengan menggunakan Tailwind CSS atau media queries CSS, sehingga navbar terlihat baik pada berbagai perangkat, baik desktop maupun mobile.
+Dengan mengikuti langkah-langkah ini, Anda akan dapat mengembangkan aplikasi yang fungsional dan memiliki tampilan menarik di berbagai perangkat.
+
+
+
+
+
+

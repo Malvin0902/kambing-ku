@@ -1,8 +1,8 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,reverse
 from main.forms import KambingEntryForm
 from main.models import KambingEntry
-from django.http import HttpResponse
+from django.http import HttpResponse , HttpResponseRedirect
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
@@ -21,6 +21,7 @@ def show_main(request):
     context = {
         'Nama_Aplikasi': 'KambingKu',
         'Name': request.user.username,
+        "NPM" : "2306275821",
         'Class': 'PBP D',
         'kambing_entries': kambing_entries,
         'last_login': request.COOKIES['last_login'],
@@ -73,6 +74,29 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def edit_kambing(request, id):
+    # Get kambing entry berdasarkan id
+    mood = KambingEntry.objects.get(pk = id)
+
+    # Set kambing entry sebagai instance dari form
+    form = KambingEntryForm(request.POST or None, instance=mood)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_kambing.html", context)
+
+def delete_kambing(request, id):
+    # Get kambing berdasarkan id
+    kambing = KambingEntry.objects.get(pk = id)
+    # Hapus mood
+    kambing.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))
 
 def show_xml(request):
     data = KambingEntry.objects.all()

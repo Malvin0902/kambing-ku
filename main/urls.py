@@ -3,6 +3,10 @@ from main.views import show_main, create_kambing_entry, show_xml, show_json, sho
 from main.views import register
 from main.views import login_user
 from main.views import logout_user
+from main.views import edit_kambing
+from main.views import delete_kambing
+
+
 
 
 app_name = 'main'
@@ -17,4 +21,6 @@ urlpatterns = [
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
     path('register/', register, name='register'),
+    path('edit-mood/<uuid:id>', edit_kambing, name='edit_kambing'),
+    path('delete/<uuid:id>', delete_kambing, name='delete_kambing'), # sesuaikan dengan nama fungsi yang dibuat
 ]
