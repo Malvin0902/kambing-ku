@@ -33,11 +33,11 @@ Happy shopping! 🛒🎉 :
 
 - Pada berkas urls.py proyek, tambahkan routing untuk menghubungkan urls.py dari main.
 
-3. Membuat Model Product:
+3. Membuat Model Kambing:
 
-Di dalam berkas main/models.py, buat model Product dengan atribut name, price, dan description seperti berikut:
+Di dalam berkas main/models.py, buat model Kambing dengan atribut name, price, dan description seperti berikut:
 
-class Product(models.Model):
+class Kambing(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
     description = models.TextField()
@@ -312,7 +312,7 @@ Screenshot Postman
 
 .
 
-## Tugas Individiual 4
+    ## Tugas Individiual 4
 
 1. **Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`?**
 
@@ -604,7 +604,7 @@ Screenshot Postman
     ...
     context = {
         'name': "malvin muhammad raqin",
-        'products': products,
+        'kambings': kambings,
         'last_login': request.COOKIES.get('last_login')
     }
     ```
@@ -632,7 +632,7 @@ Screenshot Postman
     ...
     context = {
         'name': request.user.username,
-        'products': products,
+        'kambings': kambings,
     ...
     }
     ```
@@ -663,9 +663,9 @@ Screenshot Postman
 
     
 
-#### Menghubungkan Model `Product` dan `User`
+#### Menghubungkan Model `Kambing` dan `User`
 
-Kita perlu membuat hubungan antara model `Product` dan `User` dengan menggunakan `ForeignKey`. Berikut langkah-langkahnya:
+Kita perlu membuat hubungan antara model `Kambing` dan `User` dengan menggunakan `ForeignKey`. Berikut langkah-langkahnya:
 
 1. Pada `models.py` di direktori `main`, impor model `User`:
     ```bash
@@ -673,38 +673,38 @@ Kita perlu membuat hubungan antara model `Product` dan `User` dengan menggunakan
     from django.contrib.auth.models import User
     ```
 
-2. Tambahkan `user` ke model `Product`:
+2. Tambahkan `user` ke model `Kambing`:
     ```bash
-    class Product(models.Model):
+    class Kambing(models.Model):
         user = models.ForeignKey(User, on_delete=models.CASCADE)
         ...
     ```
 
-3. Edit fungsi form untuk menyimpan data berdasarkan pengguna. Ubah fungsi `create_product` di `views.py`:
+3. Edit fungsi form untuk menyimpan data berdasarkan pengguna. Ubah fungsi `create_kambing` di `views.py`:
     ```bash
-    def create_product(request):
-        form = ProductForm(request.POST or None)
+    def create_kambing(request):
+        form = KambingForm(request.POST or None)
 
         if form.is_valid() and request.method == 'POST':
-            products = form.save(commit=False)
-            products.user = request.user
-            products.save()
+            kambings = form.save(commit=False)
+            kambings.user = request.user
+            kambings.save()
             return redirect('main:show_main')
 
         context = {
             'form': form
         }
 
-        return render(request, "create_product.html", context)
+        return render(request, "create_kambing.html", context)
     ```
 
 4. Filter data kambing berdasarkan pengguna di fungsi `show_main`:
     ```bash
     def show_main(request):
-        products = Product.objects.filter(user=request.user)
+        kambing_entries = KambingEntry.objects.filter(user=request.user)
         context = {
             'name': request.user.username,
-            'products': products,
+            'kambings': kambings,
             ...
     ```
 
@@ -716,7 +716,7 @@ Kita perlu membuat hubungan antara model `Product` dan `User` dengan menggunakan
 
 6. Pilih nilai default untuk `user` ketika diminta saat migrasi:
     ```bash
-    It is impossible to add a non-nullable field 'user' to product without specifying a default. 
+    It is impossible to add a non-nullable field 'user' to kambing without specifying a default. 
     Please select a fix:
     1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
     2) Quit and manually define a default value in models.py.
@@ -734,7 +734,7 @@ Kita perlu membuat hubungan antara model `Product` dan `User` dengan menggunakan
     PRODUCTION = os.getenv("PRODUCTION", False)
     DEBUG = not PRODUCTION
     ```
-## Tugas Individiual 4
+## Tugas Individiual 5
 
 1. **Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!**
 
@@ -845,10 +845,10 @@ Fungsi delete: Menghapus kambing yang dipilih dari database.
 Langkah 2:
 
 Tambahkan rute pada urls.py untuk menghubungkan fungsi edit dan delete yang telah dibuat.
-Contohnya, gunakan path('product/edit/<int:id>/', views.edit_product, name='edit_product') untuk fungsi edit dan path('product/delete/<int:id>/', views.delete_product, name='delete_product') untuk fungsi delete.
+Contohnya, gunakan path('kambing/edit/<int:id>/', views.edit_kambing, name='edit_kambing') untuk fungsi edit dan path('kambing/delete/<int:id>/', views.delete_kambing, name='delete_kambing') untuk fungsi delete.
 Langkah 3:
 
-Buat file edit_product.html di dalam folder templates untuk menyediakan antarmuka bagi pengguna untuk mengedit kambing. Formulir ini akan terhubung dengan fungsi edit yang telah dibuat.
+Buat file edit_kambing.html di dalam folder templates untuk menyediakan antarmuka bagi pengguna untuk mengedit kambing. Formulir ini akan terhubung dengan fungsi edit yang telah dibuat.
 2. Mendesain Halaman Login, Registrasi, dan Tambah kambing yang Menarik
 Langkah 1:
 
@@ -860,7 +860,7 @@ Sesuaikan desain antarmuka pengguna (UI/UX) untuk halaman-halaman tersebut, deng
 3. Menampilkan Pesan dan Gambar Jika Tidak Ada kambing Terdaftar
 Langkah 1:
 
-Dalam template untuk menampilkan daftar kambing (product_list.html), gunakan logika kondisional untuk memeriksa apakah ada kambing yang tersedia untuk pengguna saat ini.
+Dalam template untuk menampilkan daftar kambing (kambing_list.html), gunakan logika kondisional untuk memeriksa apakah ada kambing yang tersedia untuk pengguna saat ini.
 Contohnya: if not ECommerce.objects.filter(user=request.user).exists():.
 Langkah 2:
 
@@ -868,7 +868,7 @@ Jika tidak ada kambing yang terdaftar, tampilkan gambar default yang disimpan di
 4. Menampilkan Daftar kambing dalam Format Kartu
 Langkah 1:
 
-Jika ada kambing yang ditemukan, tampilkan kambing dalam format kartu di template seperti card_product.html.
+Jika ada kambing yang ditemukan, tampilkan kambing dalam format kartu di template seperti card_kambing.html.
 Gunakan flexbox atau grid layout untuk memastikan tampilan responsif, di mana setiap kartu dapat menampilkan gambar kambing, nama, deskripsi singkat, dan harga.
 Langkah 2:
 
@@ -890,8 +890,554 @@ Langkah 2:
 Implementasikan responsivitas dengan menggunakan Tailwind CSS atau media queries CSS, sehingga navbar terlihat baik pada berbagai perangkat, baik desktop maupun mobile.
 Dengan mengikuti langkah-langkah ini, Anda akan dapat mengembangkan aplikasi yang fungsional dan memiliki tampilan menarik di berbagai perangkat.
 
+## Tugas Individiual 6  
+
+# Jawaban atas Pertanyaan
+
+## Jelaskan manfaat penggunaan JavaScript dalam pengembangan aplikasi web!
+
+### Interaktivitas:
+JavaScript meningkatkan pengalaman pengguna dengan menyediakan fitur interaktif seperti validasi form, pembaruan konten dinamis, dan animasi tanpa memuat ulang halaman.
+
+### Pemrosesan Sisi Klien:
+JavaScript memungkinkan pemrosesan dilakukan di sisi klien (di browser), sehingga mengurangi beban server dan memberikan respons yang lebih cepat kepada pengguna.
+
+### Kompatibilitas Antar-Browser:
+JavaScript dapat berjalan di semua browser modern, memastikan fungsionalitas yang konsisten di berbagai platform dan perangkat.
+
+### Operasi Asinkron:
+Menggunakan teknologi seperti AJAX dan Fetch, JavaScript memungkinkan pengiriman dan penerimaan data dari server tanpa perlu memuat ulang halaman, sehingga meningkatkan pengalaman pengguna dengan pembaruan real-time.
+
+### Ekosistem yang Kaya:
+JavaScript memiliki banyak pustaka dan framework (seperti React, Vue, Angular) yang mempermudah dan mempercepat pengembangan aplikasi web yang kompleks.
+
+### Ekstensibilitas dengan API:
+JavaScript dapat diintegrasikan dengan API eksternal, memungkinkan fungsionalitas seperti pemrosesan pembayaran, berbagi di media sosial, dan pengambilan data dari layanan eksternal.
+
+## Mengapa kita perlu menggunakan `await` saat memanggil `fetch()`? Apa yang terjadi jika kita tidak menggunakan `await`?
+
+`fetch()` digunakan untuk melakukan permintaan jaringan dan mengembalikan sebuah Promise. Dengan menggunakan `await`, kita bisa menghentikan eksekusi fungsi hingga Promise terselesaikan, artinya kita menunggu respons dari server sebelum melanjutkan ke baris kode berikutnya. Ini memastikan bahwa kita mendapatkan data respons yang sesungguhnya alih-alih Promise yang masih dalam status tertunda.
+
+### Apa yang Terjadi Jika Tidak Menggunakan `await`:
+Jika kita tidak menggunakan `await`, eksekusi akan berlanjut langsung, dan sebagai gantinya kita akan mendapatkan objek Promise, bukan data yang sudah diselesaikan dari pemanggilan `fetch()`. Ini dapat menyebabkan masalah seperti mencoba mengakses data respons sebelum tersedia, yang dapat menyebabkan error atau perilaku yang tidak diharapkan.
+
+## Mengapa kita perlu menggunakan dekorator `csrf_exempt` pada view yang digunakan untuk AJAX POST?
+
+Dekorator `csrf_exempt` digunakan untuk menonaktifkan perlindungan CSRF (Cross-Site Request Forgery) pada view tertentu. Secara default, Django melindungi aplikasi dari serangan CSRF dengan mengharuskan adanya token CSRF dalam permintaan POST, namun permintaan AJAX POST sering kali tidak secara otomatis menyertakan token ini kecuali secara eksplisit diset pada kode JavaScript.
+
+Dengan menggunakan `csrf_exempt`, Anda menghindari error di mana Django menolak permintaan karena token CSRF yang hilang. Namun, sangat penting untuk berhati-hati dalam menggunakan ini, karena menonaktifkan perlindungan CSRF dapat membuka celah keamanan jika tidak ditangani dengan baik.
+
+## Mengapa sanitasi input pengguna tidak cukup hanya dilakukan di sisi front-end?
+
+Sanitasi input pengguna di sisi front-end memang penting, tetapi tidak cukup hanya dilakukan di sana. Berikut alasannya:
+
+### Alasan untuk Sanitasi di Sisi Back-End:
+
+- **Manipulasi Sisi Klien:**
+  Pengguna dapat melewati validasi dan sanitasi di sisi front-end dengan memanipulasi kode klien menggunakan alat pengembang browser atau metode lain. Pengguna jahat dapat menonaktifkan JavaScript atau mengubah kode JavaScript untuk menghapus pemeriksaan sanitasi.
+
+- **Keamanan:**
+  Back-end adalah gerbang terakhir sebelum data disimpan di database atau diproses lebih lanjut. Hanya mengandalkan sanitasi di sisi front-end membuat aplikasi rentan terhadap serangan seperti Cross-Site Scripting (XSS), SQL Injection, dan serangan injeksi lainnya, seperti yang kita bahas dalam tutorial dan tugas.
 
 
+ ## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+
+
+1. Buka file `views.py` di dalam direktori `main`. Tambahkan potongan kode berikut:
+
+    ```python
+    def login_user(request):
+        ...
+            ...
+            if form.is_valid():
+                user = form.get_user()
+                login(request, user)
+                response = HttpResponseRedirect(reverse("main:show_main"))
+                response.set_cookie('last_login', str(datetime.datetime.now()))
+                return response
+
+            else:
+                messages.error(request, 'Username atau password salah. Silakan coba lagi.')
+            ...
+        ...
+    ```
+
+Sekarang kita telah berhasil menambahkan pesan kesalahan di halaman login. Selanjutnya kita dapat memodifikasi fungsi-fungsi untuk menggunakan AJAX.
+
+### Memodifikasi Fungsi Sebelumnya untuk Menggunakan AJAX
+
+#### AJAX GET 
+
+##### Modifikasi kode pada kartu data 
+
+1. Sekarang, kita ingin menampilkan produk. Kita bisa melakukannya dengan `fetch()` API yang nantinya akan membuat permintaan AJAX GET. Namun, sebelum itu, kita harus mengambil objek dari endpoint `/json`, jadi kita perlu menghapus beberapa baris kode. Buka file `views.py` di dalam direktori `main` dan hapus baris ini:
+
+    ```python
+    ...
+    kambing_entries = KambingEntry.objects.filter(user=request.user)
+    ...
+        ''kambing_entries': kambing_entries
+    ```
+
+    Atau agar lebih jelas:
+
+    ```python
+    @login_required(login_url='/login')
+    def show_main(request):
+        kambing_entries = KambingEntry.objects.filter(user=request.user) # HAPUS BARIS INI
+        context = {
+            'name': request.user.username,
+            'kambing_entries': kambing_entries # HAPUS BARIS INI
+            'last_login': request.COOKIES.get('last_login')
+        }
+
+        return render(request, "main.html", context)
+    ```
+
+##### Mengambil data menggunakan AJAX GET 
+
+2. Sekarang tambahkan baris tersebut ke fungsi `show_json` dan `show_xml` di file `views.py`. Tambahkan seperti berikut:
+
+    ```python
+    data = KambingEntry.objects.filter(user=request.user)
+    ```
+
+    Jadi, seluruh kode akan menjadi seperti ini:
+
+    ```python
+    def show_xml(request):
+        data = KambingEntry.objects.filter(user=request.user)
+        return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+    def show_json(request):
+        data = KambingEntry.objects.filter(user=request.user)
+        return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+
+    def show_xml_by_id(request, id):
+        data = KambingEntry.objects.filter(pk=id)
+        return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+    def show_json_by_id(request, id):
+        data = KambingEntry.objects.filter(pk=id)
+        return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    ```
+
+3. Karena kita akan menggunakan modal, kita perlu menghapus blok `kambing_entries` yang menampilkan kartu produk saat kosong di `main.html` di subdirektori `templates` dalam direktori `main`. Hapus kode ini:
+
+    ```html
+        {% if not kambing_entries %}
+    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+        <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+        <p class="text-center text-gray-600 mt-4">Belum ada data kambing pada KambingKu.</p>
+    </div>
+    {% else %}
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full">
+        {% for kambing_entry in kambing_entries %}
+            {% include 'card_kambing.html' with kambing_entry=kambing_entry %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    ```
+
+4. Tambahkan kode ini di tempat yang sama seperti yang dihapus:
+
+    ```html
+    ...
+    <div id="kambing_entry_cards"></div>
+    ...
+    ```
+
+5. Selanjutnya, kita perlu membuat fungsi yang akan membuat permintaan AJAX GET ke URL `{% url 'main:show_json' %}` menggunakan API `fetch`. Buat blok `<script>` di bawah file (sebelum `{% endblock content %}`) dan buat fungsi ini:
+
+    ```html
+    <script>
+        async function getKambingEntries(){
+            return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+        }
+    </script>
+    ```
+
+##### Mengimplementasikan Fungsi Refresh Asinkron
+
+6. Sekarang buat **fungsi baru** di dalam blok `<script>` dengan nama `refreshKambingEntries` untuk memanggil `getKambingEntries` agar mengambil entri produk dan memperbarui data produk secara asinkron seperti berikut:
+
+    ```javascript
+    async function refreshKambingEntries() {
+        document.getElementById("kambing_entry_cards").innerHTML = "";
+        document.getElementById("kambing_entry_cards").className = "";
+        const kambingEntries = await getKambingEntries();
+        let htmlString = "";
+        let classNameString = "";
+
+        if (kambingEntries.length === 0) {
+            classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+            htmlString = `
+                <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                    <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                    <p class="text-center text-gray-600 mt-4">Belum ada data kambing pada mental health tracker.</p>
+                </div>
+            `;
+        }
+        else {
+            classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full"
+            kambingEntries.forEach((item) => {
+                const name = DOMPurify.sanitize(item.fields.name);
+                const description = DOMPurify.sanitize(item.fields.description);
+                htmlString += `
+                <div class="relative break-inside-avoid">
+        <div class="absolute top-2 z-10 left-1/2 -translate-x-1/2 flex items-center -space-x-2">
+            <div class="w-[3rem] h-8 bg-gray-300 rounded-md opacity-80 -rotate-90"></div>
+            <div class="w-[3rem] h-8 bg-gray-300 rounded-md opacity-80 -rotate-90"></div>
+        </div>
+        <div class="relative top-5 bg-white shadow-lg rounded-lg mb-6 break-inside-avoid flex flex-col border-2 border-gray-300 transition-transform transform hover:scale-105 hover:shadow-xl duration-300">
+            <div class="bg-gray-100 text-gray-800 p-4 rounded-t-lg border-b-2 border-gray-200">
+                <h3 class="font-bold text-xl mb-2">${ name }</h3>
+                <p class="text-gray-500">${ item.fields.time }</p>
+            </div>
+            <div class="p-4">
+                <p class="font-semibold text-lg mb-2">Description</p>
+                <p class="text-gray-700 mb-2">
+                    <span class="bg-gray-200 p-2 rounded-lg">${ description }</span>
+                </p>
+                <div class="mt-4">
+                    <p class="text-gray-600 font-semibold mb-2">Price</p>
+                    <div class="relative pt-1">
+                        <div class="flex mb-2 items-center justify-between">
+                            <div>
+                                <span class="text-lg font-bold inline-block py-1 px-3 uppercase rounded-full text-white bg-green-500">
+                                    ${ item.fields.price } 
+                                </span>
+                            </div>
+                        </div>
+                        <div class="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-0 -right-4 flex space-x-1">
+            <a href="/edit-kambing/${
+                        item.pk
+                        }" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+            </a>
+            <a href="/delete/${
+                        item.pk
+                        }" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+                `;
+            });
+        }
+        document.getElementById("kambing_entry_cards").className = classNameString;
+        document.getElementById("kambing_entry_cards").innerHTML = htmlString;
+    }
+    refreshKambingEntries();
+    </script>
+    ```
+
+7. Sekarang, kita perlu membuat modal sebagai form untuk menambahkan produk. Karena kita menggunakan Tailwind, kita bisa mengimplementasikannya di aplikasi kita. Tempatkan kode berikut di bawah `div` dengan kambing_entry_cards`:
+
+    ```html
+    ...
+        <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+        <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 border-b rounded-t">
+            <h3 class="text-xl font-semibold text-gray-900">
+            Add New Kambing Entry
+            </h3>
+            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn">
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+            </button>
+        </div>
+        <!-- Modal body -->
+        <div class="px-6 py-4 space-y-6 form-style">
+            <form id="kambingEntryForm">
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter your kambing" required>
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description" name="description" rows="3" class="mt-1 block w-full h-52 resize-none border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Describe your description" required></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                <input type="number" id="price" name="price" min="0"  class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" required>
+            </div>
+            </form>
+        </div>
+        <!-- Modal footer -->
+        <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
+            <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
+            <button type="submit" id="submitKambingEntry" form="kambingEntryForm" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
+        </div>
+        </div>
+    </div>
+    </div>
+    ...
+    ```
+
+8. Agar modal kita bisa berfungsi, tambahkan fungsi JavaScript berikut. Kita bisa melakukannya dengan menambahkan kode berikut di dalam file `main.html`:
+
+    ```javascript
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+
+    function showModal() {
+        modal.classList.remove('hidden'); 
+        setTimeout(() => {
+        modalContent.classList.remove('opacity-0', 'scale-95');
+        modalContent.classList.add('opacity-100', 'scale-100');
+        }, 50); 
+    }
+
+    function hideModal() {
+        modalContent.classList.remove('opacity-100', 'scale-100');
+        modalContent.classList.add('opacity-0', 'scale-95');
+
+        setTimeout(() => {
+        modal.classList.add('hidden');
+        }, 150); 
+    }
+
+    document.getElementById("cancelButton").addEventListener("click", hideModal);
+    document.getElementById("closeModalBtn").addEventListener("click", hideModal);
+    ...
+    ```
+
+#### AJAX POST
+
+##### Buat Tombol yang Membuka Modal 
+
+1. Tambahkan kode berikut untuk membuat tombol untuk entri produk:
+
+    ```html
+    ...
+    <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
+      Tambahkan Kambing Baru
+    </button>
+    ...
+    ```
+
+##### Membuat Fungsi View Baru untuk Menambah Produk
+
+2. Untuk menjaga fungsi-fungsi sebelumnya tetap bisa digunakan, sebaiknya kita buat fungsi baru di `views.py` dalam direktori `main` untuk menambah produk dengan AJAX. Pertama, kita perlu mengimpor dekorator berikut:
+
+    ```python
+    ...
+    from django.views.decorators.csrf import csrf_exempt
+    from django.views.decorators.http import require_POST
+    ```
+
+3. Buat fungsi baru, masih di file `views.py`, dengan nama `add_kambing_entry_ajax` yang mengambil parameter `request`. Gunakan dekorator yang telah kita impor sebelumnya dan isi fungsinya sebagai berikut:
+
+    ```python
+    ...
+    @csrf_exempt
+    @require_POST
+    def add_kambing_entry_ajax(request):
+        user = request.user
+        name = request.POST.get("name")
+        price = request.POST.get("price")
+        description = request.POST.get("description")
+        
+
+        new_kambing = Kambing(
+            user=user,
+            name=name,
+            price=price,
+            description=description,
+          
+        )
+        new_kambing.save()
+
+        return HttpResponse(b"CREATED", status=201)
+    ```
+
+##### Membuat Path `/create-ajax/`
+
+4. Karena kita membuat fungsi baru di `views.py`, jangan lupa tambahkan di file `urls.py` di direktori `main` dan impor fungsi yang dibuat:
+
+    ```python
+    from main.views import ..., add_kambing_entry_ajax
+    ...
+    ```
+
+5. Tambahkan path URL berikut:
+
+    ```python
+    ...
+    urlpatterns = [
+        ...,
+    path('create-kambing-entry-ajax', add_kambing_entry_ajax, name='add_kambing_entry_ajax'),
+    ]
+    ```
+
+##### Hubungkan Form di Dalam Modal, Refresh Asinkron Dilakukan oleh `refreshKambingEntries()`
+
+6. Selanjutnya, implementasikan permintaan AJAX POST dengan membuat fungsi JavaScript baru untuk menambahkan data berdasarkan input. Buka `main.html` dan buat fungsi `addKambingEntry` di dalam blok `<script>` sebagai berikut:
+
+    ```javascript
+    <script>
+        function addKambingEntry() {
+            fetch("{% url 'main:add_kambing_entry_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#kambingForm')),
+            })
+            .then(response => refreshKambingEntries())
+
+            document.getElementById("kambingForm").reset(); 
+            document.querySelector("[data-modal-toggle='crudModal']").click();
+
+            return false;
+        }
+    ...
+    </script>
+    ```
+
+7. Jangan lupa tambahkan event listener ke form dalam modal untuk menjalankan fungsi `addKambingEntry()` yang kita buat tadi. Ketika form dikirim, pengiriman form secara default akan dicegah menggunakan `e.preventDefault()`:
+
+    ```html
+    <script>
+    ...
+        document.getElementById("kambingForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            addKambingEntry();
+        })
+    </script>
+    ```
+
+#### Mengamankan AJAX POST dan GET
+
+Untuk mengamankan situs web dari serangan Cross-Site Scripting (XSS), ikuti langkah-langkah berikut:
+
+1. Di file `views.py` dan `forms.py` di direktori `main`, tambahkan impor untuk menggunakan `strip_tags`, yang akan membantu kita menghapus semua tag HTML:
+
+    ```python
+    ...
+    from django.utils.html import strip_tags
+    ```
+
+2. Di `views.py`, modifikasi fungsi ` add_kambing_entry_ajax` untuk menggunakan fungsi `strip_tags` sebelum data dimasukkan. Modifikasi seperti berikut:
+
+    ```python
+    @csrf_exempt
+    @require_POST
+    def  add_kambing_entry_ajax(request):
+        user = request.user
+        name = strip_tags(request.POST.get("name"))
+        price = request.POST.get("price")
+        description = strip_tags(request.POST.get("description"))
+        ...
+    ```
+
+3. Kita juga ingin melakukan hal yang sama saat pengguna mengedit produk mereka. Jadi, di kelas `KambingForm` di file `forms.py` di direktori `main`, tambahkan metode berikut:
+
+    ```python
+    ...
+    class KambingForm(ModelForm):
+        ...
+
+        def clean_name(self):
+            name = self.cleaned_data['name']
+            return strip_tags(name)
+        
+        def clean_description(self):
+            description = self.cleaned_data['description']
+            return strip_tags(description)
+        
+    ```
+
+##### Sanitasi Data dengan DOMPurify
+
+4. Untuk membersihkan data lama, buka file `main.html` dan tambahkan kode berikut ke blok `meta`:
+
+    ```html
+    {% block meta %}
+    ...
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+    ...
+    {% endblock meta %}
+    ```
+
+5. Tambahkan kode berikut ke fungsi `refreshKambingEntries()` untuk menggunakan DOMPurify:
+
+    ```javascript
+    const name = DOMPurify.sanitize(item.fields.name);
+                const description = DOMPurify.sanitize(item.fields.description);
+                htmlString += `
+                <div class="relative break-inside-avoid">
+        <div class="absolute top-2 z-10 left-1/2 -translate-x-1/2 flex items-center -space-x-2">
+            <div class="w-[3rem] h-8 bg-gray-300 rounded-md opacity-80 -rotate-90"></div>
+            <div class="w-[3rem] h-8 bg-gray-300 rounded-md opacity-80 -rotate-90"></div>
+        </div>
+        <div class="relative top-5 bg-white shadow-lg rounded-lg mb-6 break-inside-avoid flex flex-col border-2 border-gray-300 transition-transform transform hover:scale-105 hover:shadow-xl duration-300">
+            <div class="bg-gray-100 text-gray-800 p-4 rounded-t-lg border-b-2 border-gray-200">
+                <h3 class="font-bold text-xl mb-2">${ name }</h3>
+                <p class="text-gray-500">${ item.fields.time }</p>
+            </div>
+            <div class="p-4">
+                <p class="font-semibold text-lg mb-2">Description</p>
+                <p class="text-gray-700 mb-2">
+                    <span class="bg-gray-200 p-2 rounded-lg">${ description }</span>
+                </p>
+                <div class="mt-4">
+                    <p class="text-gray-600 font-semibold mb-2">Price</p>
+                    <div class="relative pt-1">
+                        <div class="flex mb-2 items-center justify-between">
+                            <div>
+                                <span class="text-lg font-bold inline-block py-1 px-3 uppercase rounded-full text-white bg-green-500">
+                                    ${ item.fields.price } 
+                                </span>
+                            </div>
+                        </div>
+                        <div class="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-0 -right-4 flex space-x-1">
+            <a href="/edit-kambing/${
+                        item.pk
+                        }" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+            </a>
+            <a href="/delete/${
+                        item.pk
+                        }" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+                `;
+            });
+        }
+        document.getElementById("kambing_entry_cards").className = classNameString;
+        document.getElementById("kambing_entry_cards").innerHTML = htmlString;
+    }
+    refreshKambingEntries();
+    ```
+
+Dengan ini, kita telah berhasil mengamankan situs dari serangan XSS.
 
 
 

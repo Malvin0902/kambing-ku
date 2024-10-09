@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import show_main, create_kambing_entry, show_xml, show_json, show_xml_by_id, show_json_by_id
+from main.views import show_main, create_kambing_entry, show_xml, show_json, show_xml_by_id, show_json_by_id, add_kambing_entry_ajax
 from main.views import register
 from main.views import login_user
 from main.views import logout_user
@@ -21,6 +21,8 @@ urlpatterns = [
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
     path('register/', register, name='register'),
-    path('edit-mood/<uuid:id>', edit_kambing, name='edit_kambing'),
+    path('edit-kambing/<uuid:id>', edit_kambing, name='edit_kambing'),
     path('delete/<uuid:id>', delete_kambing, name='delete_kambing'), # sesuaikan dengan nama fungsi yang dibuat
+    path('create-kambing-entry-ajax', add_kambing_entry_ajax, name='add_kambing_entry_ajax'),
+
 ]
