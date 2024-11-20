@@ -5,7 +5,7 @@ from main.views import login_user
 from main.views import logout_user
 from main.views import edit_kambing
 from main.views import delete_kambing
-
+from main.views import create_kambing_flutter
 
 
 
@@ -24,5 +24,5 @@ urlpatterns = [
     path('edit-kambing/<uuid:id>', edit_kambing, name='edit_kambing'),
     path('delete/<uuid:id>', delete_kambing, name='delete_kambing'), # sesuaikan dengan nama fungsi yang dibuat
     path('create-kambing-entry-ajax', add_kambing_entry_ajax, name='add_kambing_entry_ajax'),
-
+    path('create-flutter/', create_kambing_flutter, name='create_kambing_flutter'),
 ]

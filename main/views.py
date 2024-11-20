@@ -15,7 +15,23 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
-
+from django.http import JsonResponse
+import json # Assignment 9
+@csrf_exempt # Assignment 9
+def create_kambing_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_product = KambingEntry.objects.create(
+        user=request.user,
+        name=data['name'],
+        price=data['price'],
+        description=data['description'],
+        )
+        new_product.save()
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+    
 
 
 # Create your views here.
